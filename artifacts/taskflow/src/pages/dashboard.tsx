@@ -18,9 +18,9 @@ import {
   Plus, 
   CircleDashed,
   Loader2,
-  Calendar,
   AlertCircle
 } from "lucide-react";
+import { LiveClock } from "@/components/live-clock";
 import { cn } from "@/lib/utils";
 
 import { 
@@ -108,30 +108,27 @@ export default function DashboardPage() {
       </div>
 
       {/* Top Nav */}
-      <header className="h-16 border-b border-border/50 bg-white/70 backdrop-blur-xl sticky top-0 z-20 px-6 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-accent text-white flex items-center justify-center shadow-sm">
+      <header className="h-16 border-b border-border/50 bg-white/70 backdrop-blur-xl sticky top-0 z-20 px-4 sm:px-6 flex items-center justify-between gap-3 shadow-sm">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-accent text-white flex items-center justify-center shadow-sm shrink-0">
             <Layers className="h-5 w-5" />
           </div>
-          <span className="font-serif text-xl font-bold tracking-tight">TaskFlow</span>
+          <span className="font-serif text-lg sm:text-xl font-bold tracking-tight truncate">TaskFlow</span>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="text-sm font-semibold text-muted-foreground hidden sm:flex items-center gap-2 bg-secondary/50 px-3 py-1.5 rounded-full border border-border/50">
-            <Calendar className="h-4 w-4" />
-            {new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
-          </div>
-          
+        <div className="flex items-center gap-2 sm:gap-4">
+          <LiveClock />
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-2 hover:opacity-80 transition-opacity pl-2 outline-none">
+              <button className="flex items-center gap-1 sm:gap-2 hover:opacity-80 transition-opacity sm:pl-2 outline-none">
                 <Avatar className="h-9 w-9 border-2 border-white shadow-sm ring-1 ring-border">
                   <AvatarImage src={user?.imageUrl} />
                   <AvatarFallback className="bg-primary text-primary-foreground font-bold text-xs">
                     {user?.firstName?.charAt(0) || "U"}
                   </AvatarFallback>
                 </Avatar>
-                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                <ChevronDown className="h-4 w-4 text-muted-foreground hidden sm:block" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 bg-white/90 backdrop-blur-xl border-border/50 shadow-xl rounded-xl p-1">
@@ -154,7 +151,7 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      <main className="flex-1 px-4 sm:px-6 py-10 md:px-12 max-w-5xl mx-auto w-full relative z-10">
+      <main className="flex-1 px-4 sm:px-6 py-6 sm:py-10 md:px-12 max-w-5xl mx-auto w-full relative z-10">
         <div className="space-y-10">
           
           {/* Header Area */}
@@ -222,7 +219,7 @@ export default function DashboardPage() {
               
               <Button 
                 onClick={openNew}
-                className="bg-primary hover:bg-primary/90 text-white rounded-full h-10 px-5 text-sm shadow-[0_4px_14px_rgba(37,99,235,0.25)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)] transition-all font-semibold group flex-shrink-0"
+                className="bg-primary hover:bg-primary/90 text-white rounded-full h-10 px-5 text-sm shadow-[0_4px_14px_rgba(37,99,235,0.25)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)] transition-all font-semibold group flex-shrink-0 self-start sm:self-auto"
               >
                 <Plus className="h-4 w-4 mr-1.5 group-hover:rotate-90 transition-transform duration-300" /> New Task
               </Button>
