@@ -1,0 +1,35 @@
+our goal is to build a simple, responsive web application where users can register, log in, and manage their personal tasks.
+Required Tech Stack:
+• Frontend: React.js or Next.js
+• Backend: ASP.NET Core Web API (C#)
+• Database: MySQL
+• Authentication: Firebase Authentication
+Core Requirements:
+1. Authentication & Users (Firebase)
+• Implement a simple Login/Registration screen using Firebase Email & Password authentication.
+• Only authenticated users should be able to view and manage their tasks.
+2. Backend API (ASP.NET Core)
+• Create a RESTful API with the following endpoints:
+o GET /api/tasks - Fetch all tasks for the logged-in user.
+o POST /api/tasks - Create a new task.
+o PUT /api/tasks/{id} - Update a task (e.g., mark as completed or edit text).
+o DELETE /api/tasks/{id} - Delete a task.
+• Ensure proper error handling and basic validation (e.g., a task must have a title).
+3. Database (MySQL)
+• Design a simple Tasks table. Suggested columns: Id (Primary Key), Title (String), Description (String), IsCompleted (Boolean),
+UserId (String - linked to Firebase UID).
+• Use Entity Framework Core (or a micro-ORM like Dapper) to connect your ASP.NET API to MySQL.
+4. Frontend UI (React.js / Next.js)
+• Build a clean, responsive dashboard to interact with your API.
+• Users should be able to view their list of tasks, add a new one, mark them as complete, and delete them.
+• Display appropriate loading states and error messages.
+Bonus Points (Optional but highly encouraged):
+• Using Git workflows effectively (e.g., clear commit messages).
+• Adding basic filtering (e.g., viewing "All", "Completed", or "Pending" tasks).
+• Clean UI styling using plain CSS, Tailwind, or Bootstrap.
+Submission Guidelines:
+1. Live Deployment: Please deploy your frontend application (React/Next.js) using Vercel and provide the live URL.
+2. Code Repositories: Please push your full code (both frontend and backend) to GitHub. Ensure the repositories are public or grant access
+to this email address.
+3. Documentation: Include a README.md file in your repository with clear, step-by-step instructions on how to set up and run your backend
+API and database locally, as well as any Firebase setup notes.
