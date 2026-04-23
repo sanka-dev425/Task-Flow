@@ -86,12 +86,30 @@ builder.Services.AddSwaggerGen(c =>
             if (!string.IsNullOrWhiteSpace(firebaseCredentialsBase64))
             {
                 Console.WriteLine("[STARTUP] Decoding base64 credentials...");
-                // Railway: Base64 encoded JSON from environment variable
-                var bytes = Convert.FromBase64String(firebaseCredentialsBase64);
-                var json = System.Text.Encoding.UTF8.GetString(bytes);
-                Console.WriteLine("[STARTUP] Base64 decoded, parsing credentials...");
-                credential = GoogleCredential.FromJson(json);
-                logger.LogInformation("Using Firebase credentials from FIREBASE_CREDENTIALS_BASE64.");
+                Console.WriteLine($"[STARTUP] Base64 length: {firebaseCredentialsBase64.Length}, first 20 chars: {firebaseCredentialsBase64[..Math.Min(20, firebaseCredentialsBase64.Length)]}");
+                try
+                {
+                    var bytes = Convert.FromBase64String(firebaseCredentialsBase64);
+                    var json = System.Text.Encoding.UTF8.GetString(bytes);
+                    Console.WriteLine($"[STARTUP] Decoded JSON length: {json.Length}, starts with: {json[..Math.Min(30, json.Length)]}");
+                    credential = GoogleCredential.FromJson(json);
+                    logger.LogInformation("Using Firebase credentials from FIREBASE_CREDENTIALS_BASE64.");
+                }
+                catch (Exception b64ex)
+                {
+                    Console.WriteLine($"[ERROR] Base64 decode/parse failed: {b64ex.Message}");
+                    Console.WriteLine("[STARTUP] Falling back to raw JSON env var...");
+                    // Try treating the value as raw JSON directly
+                    try
+                    {
+                        credential = GoogleCredential.FromJson(firebaseCredentialsBase64);
+                        Console.WriteLine("[STARTUP] Raw JSON parse succeeded as fallback.");
+                    }
+                    catch
+                    {
+                        throw new Exception($"Cannot parse FIREBASE_CREDENTIALS_BASE64 as base64 or JSON: {b64ex.Message}");
+                    }
+                }
             }
             else if (!string.IsNullOrWhiteSpace(firebaseSaJson))
             {
@@ -146,7 +164,6 @@ app.MapControllers();
 // Auto-create schema in dev (optional convenience). Tolerates MySQL being unreachable
 // at startup so endpoints like /api/health remain inspectable; data endpoints will
 // surface the connection error per-request.
-if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
