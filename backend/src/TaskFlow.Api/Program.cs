@@ -171,7 +171,13 @@ app.MapControllers();
     try
     {
         db.Database.EnsureCreated();
-        db.Database.ExecuteSqlRaw("ALTER TABLE `tasks` ADD COLUMN IF NOT EXISTS `due_date` datetime(6) NULL;");
+        try
+        {
+            db.Database.ExecuteSqlRaw("ALTER TABLE `tasks` ADD COLUMN `due_date` datetime(6) NULL;");
+        }
+        catch (MySqlConnector.MySqlException ex) when (ex.Message.Contains("Duplicate column name", StringComparison.OrdinalIgnoreCase))
+        {
+        }
         startupLogger.LogInformation("Database schema ensured.");
     }
     catch (Exception ex)
