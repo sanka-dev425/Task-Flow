@@ -39,7 +39,7 @@ var allowedOriginsSection = builder.Configuration.GetSection("Cors:AllowedOrigin
 var allowedOrigins = allowedOriginsSection.Get<string[]>()
     ?? (string.IsNullOrWhiteSpace(allowedOriginsSection.Value)
         ? new[] { "http://localhost:3000" }
-        : new[] { allowedOriginsSection.Value });
+        : allowedOriginsSection.Value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
 
 // ---- Services ----
 // Use a pinned server version so app boot doesn't require an open MySQL connection.
