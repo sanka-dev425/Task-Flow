@@ -161,9 +161,9 @@ app.UseCors();
 app.UseFirebaseAuth();
 app.MapControllers();
 
-// Auto-create schema in dev (optional convenience). Tolerates MySQL being unreachable
-// at startup so endpoints like /api/health remain inspectable; data endpoints will
-// surface the connection error per-request.
+// Ensure schema at startup. Tolerates MySQL being unreachable so endpoints
+// like /api/health remain inspectable; data endpoints will surface connection
+// errors per-request.
 {
     using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -171,6 +171,7 @@ app.MapControllers();
     try
     {
         db.Database.EnsureCreated();
+        db.Database.ExecuteSqlRaw("ALTER TABLE `tasks` ADD COLUMN IF NOT EXISTS `due_date` datetime(6) NULL;");
         startupLogger.LogInformation("Database schema ensured.");
     }
     catch (Exception ex)

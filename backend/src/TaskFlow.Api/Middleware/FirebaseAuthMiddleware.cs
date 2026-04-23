@@ -62,18 +62,21 @@ public class FirebaseAuthMiddleware
         {
             var decoded = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(idToken);
             context.Items[UserIdKey] = decoded.Uid;
-            await _next(context);
         }
         catch (FirebaseAuthException ex)
         {
             _logger.LogWarning("Firebase token verification failed: {Message}", ex.Message);
             await WriteUnauthorized(context, "Invalid or expired token.");
+            return;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unexpected error during Firebase token verification.");
             await WriteUnauthorized(context, "Authentication failed.");
+            return;
         }
+
+        await _next(context);
     }
 
     private static async Task WriteUnauthorized(HttpContext ctx, string message)
