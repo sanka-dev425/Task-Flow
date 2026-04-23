@@ -1,129 +1,132 @@
 # TaskFlow
 
-> A clean, professional full-stack task manager built with Next.js 14, ASP.NET Core 8, MySQL, and Firebase Authentication.
+TaskFlow is a full-stack task manager I built to implement a real production-style flow using `Next.js`, `ASP.NET Core Web API`, `MySQL`, and `Firebase Authentication`.
 
-[![Frontend: Next.js](https://img.shields.io/badge/Frontend-Next.js%2014-000?logo=next.js)](https://nextjs.org/)
-[![Backend: ASP.NET Core](https://img.shields.io/badge/Backend-ASP.NET%20Core%208-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
-[![Database: MySQL](https://img.shields.io/badge/Database-MySQL%208-4479A1?logo=mysql)](https://www.mysql.com/)
-[![Auth: Firebase](https://img.shields.io/badge/Auth-Firebase-FFCA28?logo=firebase)](https://firebase.google.com/)
+The goal of this project is simple: authenticated users should be able to manage their own tasks end-to-end, with proper backend validation, user-level data isolation, and a deployable frontend + backend setup.
 
----
+## Required Stack Mapping
 
-## ✨ Features
+- Frontend: `Next.js` (React + TypeScript)
+- Backend: `ASP.NET Core 8 Web API` (C#)
+- Database: `MySQL`
+- Authentication: `Firebase Email/Password`
 
-- 🔐 **Email/Password Authentication** powered by Firebase
-- ✅ **Full Task CRUD** — create, read, update, delete with real-time UI
-- 🎯 **Filtering** — view *All*, *Pending*, or *Completed* tasks
-- 🚨 **Priority Levels** — set tasks as Low, Medium, or High priority
-- 📅 **Due Dates** — schedule tasks with optional due date and time
-- 🎨 **Clean responsive UI** — Tailwind CSS, modern design language with dark mode
-- ⚡ **Loading & error states** everywhere
-- 🛡️ **Per-user data isolation** — every row scoped to your Firebase UID
-- 📦 **Production-ready** — Vercel-deployable frontend, Dockerized MySQL
+## Live Links
 
-## 🏗 Architecture
+- Frontend (Vercel): add your URL here
+- Backend (Railway): add your URL here
+- Repository: add your URL here
 
-```
-┌─────────────────┐      HTTPS + Bearer ID Token      ┌──────────────────┐
-│   Next.js 14    │  ────────────────────────────►    │  ASP.NET Core 8  │
-│   (Frontend)    │  ◄────────────────────────────    │     Web API      │
-│  Firebase SDK   │           JSON                    │ Firebase Admin   │
-└─────────────────┘                                   └────────┬─────────┘
-                                                               │ EF Core
-                                                               ▼
-                                                       ┌───────────────┐
-                                                       │   MySQL 8     │
-                                                       └───────────────┘
-```
+## Core Features Implemented
 
-## 📁 Project Structure
+- Firebase email/password registration and login
+- Protected dashboard routes for authenticated users only
+- Task CRUD API:
+  - `GET /api/tasks`
+  - `POST /api/tasks`
+  - `PUT /api/tasks/{id}`
+  - `DELETE /api/tasks/{id}`
+- Input validation (example: title is required)
+- User-scoped task data using Firebase UID
+- Filter tabs for `All`, `Pending`, and `Completed`
+- Loading states and error states in frontend
 
-```
-TaskFlow/
-├── frontend/                  # Next.js 14 (App Router) — deploy to Vercel
-│   ├── src/app/               # Pages (landing, login, register, dashboard)
-│   ├── src/components/        # UI components
-│   ├── src/lib/               # firebase.ts, api.ts, utils
-│   └── src/hooks/             # useAuth, useTasks
-│
-├── backend/                   # ASP.NET Core 8 Web API
-│   ├── src/TaskFlow.Api/
-│   │   ├── Controllers/       # TasksController
-│   │   ├── Models/            # TaskItem entity
-│   │   ├── Data/              # AppDbContext (EF Core)
-│   │   ├── DTOs/              # Request/response shapes
-│   │   ├── Services/          # Business logic
-│   │   └── Middleware/        # Firebase token verification
-│   └── docker-compose.yml     # MySQL for local dev
-│
-├── README.md                  # You are here
-└── TODO.md                    # Build checklist
+## Project Structure
+
+```text
+TASK FLOW/
+├─ frontend/                        # Next.js app (UI)
+│  ├─ src/app/
+│  ├─ src/components/
+│  ├─ src/hooks/
+│  └─ src/lib/
+├─ backend/                         # ASP.NET Core API
+│  ├─ src/TaskFlow.Api/
+│  │  ├─ Controllers/
+│  │  ├─ Data/
+│  │  ├─ DTOs/
+│  │  ├─ Middleware/
+│  │  ├─ Models/
+│  │  └─ Services/
+│  └─ railway.json
+├─ ARCHITECTURE.md
+└─ README.md
 ```
 
-## 🚀 Quick Start
+## Local Setup
 
-### Prerequisites
-- **Node.js** 20+ and **npm**
-- **.NET 8 SDK**
-- **MySQL 8** (or Docker for the included compose file)
-- A **Firebase project** with Email/Password sign-in enabled
+## 1) Backend
 
-### 1. Backend setup → see [`backend/README.md`](./backend/README.md)
-### 2. Frontend setup → see [`frontend/README.md`](./frontend/README.md)
-
-## 🌐 Deployment
-
-### Frontend (Vercel)
-1. Push code to GitHub
-2. Visit [vercel.com/new](https://vercel.com/new) → import repo → select `frontend/` as Root Directory
-3. Add environment variables from `.env.example`
-4. Set `NEXT_PUBLIC_API_BASE_URL` to your deployed backend URL
-5. Deploy
-
-### Backend (Azure/AWS/Render/Docker)
-- Build: `dotnet publish src/TaskFlow.Api -c Release -o ./out`
-- Deploy `./out` to any .NET 8 capable host
-- Set environment variables for connection strings and Firebase config
-
-### Database
-- **Railway MySQL** (recommended) → see `RAILWAY_DEPLOY.md`
-- PlanetScale, AWS RDS, Azure Database for MySQL
-- Self-host MySQL 8 with `docker-compose.yml`
-
-## 🔥 Firebase Setup
-
-1. Create project at [Firebase Console](https://console.firebase.google.com)
-2. Enable **Email/Password** Authentication
-3. Add Web app → copy config to `.env.local`
-4. Download service account JSON for backend
-
-## 🚃 Railway Quick Deploy
-
-See `RAILWAY_DEPLOY.md` for detailed instructions.
+From project root:
 
 ```bash
-# 1. Create MySQL on Railway Dashboard
-# 2. Set environment variables:
-railway vars set ConnectionStrings__DefaultConnection="mysql://..."
-railway vars set Firebase__ProjectId="your-project"
-railway vars set GOOGLE_APPLICATION_CREDENTIALS_JSON='{...}'
-railway vars set Cors__AllowedOrigins__0="https://your-frontend.vercel.app"
-
-# 3. Deploy
-railway up
+dotnet restore backend/src/TaskFlow.Api/TaskFlow.Api.csproj
+dotnet run --project backend/src/TaskFlow.Api/TaskFlow.Api.csproj
 ```
 
-## 🛠 API Reference
+Required backend environment variables:
 
-All endpoints require `Authorization: Bearer <Firebase-ID-Token>`.
+- `ConnectionStrings__DefaultConnection`
+- `Firebase__ProjectId`
+- `GOOGLE_APPLICATION_CREDENTIALS_JSON` (raw JSON string)
+- `Cors__AllowedOrigins` (comma-separated origins)
 
-| Method | Endpoint              | Description                       |
-|--------|-----------------------|-----------------------------------|
-| GET    | `/api/tasks`          | List tasks (optional `?status=`)  |
-| POST   | `/api/tasks`          | Create task (validates title)     |
-| PUT    | `/api/tasks/{id}`     | Update task                       |
-| DELETE | `/api/tasks/{id}`     | Delete task                       |
+## 2) Frontend
 
-## 📝 License
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-MIT — Built with care.
+Required frontend environment variables:
+
+- `NEXT_PUBLIC_API_BASE_URL`
+- `NEXT_PUBLIC_FIREBASE_API_KEY`
+- `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
+- `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
+- `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
+- `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
+- `NEXT_PUBLIC_FIREBASE_APP_ID`
+
+## API Endpoints
+
+All task endpoints require `Authorization: Bearer <Firebase ID Token>`.
+
+- `GET /api/tasks` (supports optional `?status=all|pending|completed`)
+- `POST /api/tasks`
+- `PUT /api/tasks/{id}`
+- `DELETE /api/tasks/{id}`
+- `GET /api/health`
+
+## Tradeoffs and Decisions
+
+- I used Firebase Auth for identity, but kept task data in MySQL for relational querying and persistence.
+- I used middleware-based token verification so every `/api/*` request is uniformly protected.
+- I kept the API focused and simple (single task resource) rather than over-engineering extra layers.
+- I added startup schema compatibility fixes for production reliability because hosted MySQL state may drift from local expectations.
+
+## Real Issues I Fixed During Deployment
+
+- Firebase Admin SDK initialization failures from malformed credential variables
+- CORS for dynamic Vercel preview domains
+- Frontend API base URL mismatch (`/api` duplication issue)
+- Misleading auth errors caused by middleware catching downstream exceptions
+- MySQL schema drift in production (`due_date` and `priority` column mismatches)
+
+## Deployment Notes
+
+- Frontend is deployed to Vercel with `frontend` as root directory.
+- Backend is deployed on Railway with a MySQL service.
+
+## Verification Checklist
+
+- Register/login works with Firebase
+- Health endpoint returns `firebase: initialized`
+- `GET /api/tasks` works for authenticated users
+- Create, update, delete task flows work from UI
+- Filter tabs (`All`, `Pending`, `Completed`) work
+
+## License
+
+MIT
