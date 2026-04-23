@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 98%;
+    --foreground: 222 47% 11%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    --border: 220 13% 91%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --accent: 217 91% 60%;
+    --accent-foreground: 0 0% 100%;
+  }
+
+  .dark {
+    --background: 222 47% 6%;
+    --foreground: 210 20% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --border: 217 33% 17%;
+    --card: 222 47% 8%;
+    --card-foreground: 210 20% 98%;
+    --accent: 217 91% 60%;
+    --accent-foreground: 0 0% 100%;
+  }
+
+  html,
+  body {
+    min-height: 100%;
+  }
+
+  body {
+    @apply text-foreground antialiased bg-background transition-colors duration-300;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  * {
+    @apply border-border;
+  }
+}
+
+@layer components {
+  /* ─── Card styles ─── */
+  .card {
+    @apply rounded-2xl border border-border bg-card text-card-foreground shadow-sm;
+  }
+
+  /* ─── Auth card (login / register) ─── */
+  .auth-card {
+    @apply rounded-3xl border border-border bg-card shadow-lg;
+  }
+
+  /* ─── Metric cards ─── */
+  .metric-card {
+    @apply rounded-2xl border border-border bg-card p-5 shadow-sm transition-all duration-300;
+  }
+
+  /* ─── Buttons ─── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold
+      transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60
+      disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98];
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-600 text-white shadow-lg shadow-brand-500/25
+      hover:bg-brand-700;
+  }
+
+  .btn-secondary {
+    @apply btn bg-card text-foreground border border-border hover:bg-muted;
+  }
+
+  .btn-ghost {
+    @apply btn text-muted-foreground hover:bg-muted;
+  }
+
+  .btn-danger {
+    @apply btn bg-red-600 text-white shadow-lg shadow-red-500/25 hover:bg-red-700;
+  }
+
+  /* ─── Form controls ─── */
+  .input {
+    @apply block w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm
+      placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500
+      transition-all;
+  }
+
+  .label {
+    @apply text-xs font-semibold uppercase tracking-wider text-muted-foreground;
+  }
+
+  /* ─── Typography ─── */
+  .section-title {
+    @apply text-2xl sm:text-3xl font-bold tracking-tight text-foreground;
+  }
+
+  /* ─── Auth divider ─── */
+  .auth-divider {
+    @apply flex items-center gap-3 my-6 text-xs font-medium text-muted-foreground uppercase tracking-wider;
+  }
+  .auth-divider::before,
+  .auth-divider::after {
+    content: "";
+    @apply flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent;
+  }
+
+  /* ─── Skeleton / shimmer loading ─── */
+  .skeleton {
+    @apply rounded-2xl bg-gradient-to-r from-muted via-border to-muted;
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+
+  /* ─── Dashboard header bar ─── */
+  .dash-header {
+    @apply sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur-xl;
+  }
+
+  /* ─── Quote card ─── */
+  .quote-card {
+    @apply rounded-2xl border border-brand-200/50 bg-gradient-to-br from-brand-50/80 to-blue-50/50 
+           dark:border-brand-900/30 dark:from-brand-950/40 dark:to-blue-950/30
+           p-6 sm:p-8;
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: float 5s ease-in-out infinite;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.45s ease-out both;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.35s ease-out both;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out both;
+  }
+
+  .animate-pulse-gentle {
+    animation: pulseGentle 2s ease-in-out infinite;
+  }
+
+  /* Stagger children — use with style={{ animationDelay }} */
+  .stagger-1 { animation-delay: 50ms; }
+  .stagger-2 { animation-delay: 100ms; }
+  .stagger-3 { animation-delay: 150ms; }
+  .stagger-4 { animation-delay: 200ms; }
+}
+
+/* ─── Keyframes ─── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulseGentle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}

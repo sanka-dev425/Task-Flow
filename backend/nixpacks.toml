@@ -1,0 +1,11 @@
+[phases.build]
+cmds = [
+  "dotnet --version",
+  "dotnet publish src/TaskFlow.Api/TaskFlow.Api.csproj -c Release -o out --self-contained false"
+]
+
+[phases.setup]
+nixPkgs = ["dotnet-sdk_8"]
+
+[start]
+cmd = "dotnet out/TaskFlow.Api.dll --urls http://0.0.0.0:${PORT}"

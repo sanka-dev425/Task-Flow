@@ -1,0 +1,9 @@
+bin/
+obj/
+*.user
+*.suo
+.vs/
+appsettings.Local.json
+firebase-service-account.json
+firebase-adminsdk*.json
+.env
