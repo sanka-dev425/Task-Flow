@@ -13,8 +13,9 @@ The goal of this project is simple: authenticated users should be able to manage
 
 ## Live Links
 
-- Frontend (Vercel): https://task-flow-ten-gilt.vercel.app/
-- Repository: https://github.com/sanka-dev425/Task-Flow
+- Frontend (Vercel): `https://task-flow-ten-gilt.vercel.app/`
+- Backend (Railway): `https://taskflow-api-production-a551.up.railway.app`
+- Repository: `https://github.com/sanka-dev425/Task-Flow.git`
 
 ## Core Features Implemented
 
@@ -29,6 +30,21 @@ The goal of this project is simple: authenticated users should be able to manage
 - User-scoped task data using Firebase UID
 - Filter tabs for `All`, `Pending`, and `Completed`
 - Loading states and error states in frontend
+
+## Requirements Coverage
+
+- Authentication and Users (Firebase)
+  - Email/password login and registration implemented.
+  - Only authenticated users can access task APIs and dashboard data.
+- Backend API (ASP.NET Core)
+  - `GET /api/tasks`, `POST /api/tasks`, `PUT /api/tasks/{id}`, `DELETE /api/tasks/{id}` implemented.
+  - Validation and error handling included (for example, required title and standardized error responses).
+- Database (MySQL)
+  - Tasks persisted in MySQL through EF Core.
+  - User ownership enforced through Firebase UID (`user_id`).
+- Frontend UI (Next.js)
+  - Responsive dashboard for listing, creating, updating, and deleting tasks.
+  - Loading and error states implemented for API-driven flows.
 
 ## Project Structure
 
@@ -62,6 +78,15 @@ From project root:
 dotnet restore backend/src/TaskFlow.Api/TaskFlow.Api.csproj
 dotnet run --project backend/src/TaskFlow.Api/TaskFlow.Api.csproj
 ```
+
+Optional local DB shortcut:
+
+```bash
+cd backend
+docker compose up -d
+```
+
+Using Docker Compose is optional convenience only. The primary requirement is MySQL-backed API behavior.
 
 Required backend environment variables:
 
@@ -117,6 +142,7 @@ All task endpoints require `Authorization: Bearer <Firebase ID Token>`.
 
 - Frontend is deployed to Vercel with `frontend` as root directory.
 - Backend is deployed on Railway with a MySQL service.
+- Optional Railway deployment steps: `RAILWAY_DEPLOY.md`.
 
 ## Verification Checklist
 
@@ -125,6 +151,14 @@ All task endpoints require `Authorization: Bearer <Firebase ID Token>`.
 - `GET /api/tasks` works for authenticated users
 - Create, update, delete task flows work from UI
 - Filter tabs (`All`, `Pending`, `Completed`) work
+
+## Submission Checklist
+
+- Live frontend URL shared (Vercel)
+- Public GitHub repository shared
+- README includes setup and run instructions
+- Firebase-based authentication verified
+- Required CRUD endpoints demonstrated
 
 ## License
 

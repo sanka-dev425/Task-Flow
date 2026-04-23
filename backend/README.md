@@ -134,6 +134,21 @@ Authorization: Bearer <Firebase-ID-Token>
 
 Common status codes: `400` validation, `401` unauthenticated/invalid token, `404` not found.
 
+## Criteria Mapping (Backend)
+
+- Required endpoints implemented:
+  - `GET /api/tasks`
+  - `POST /api/tasks`
+  - `PUT /api/tasks/{id}`
+  - `DELETE /api/tasks/{id}`
+- Auth requirement implemented:
+  - Firebase ID token verification is required for `/api/tasks*` routes.
+- Validation and error handling implemented:
+  - Invalid payloads return `400` with structured error details.
+  - Invalid or missing auth returns `401`.
+- MySQL persistence implemented via EF Core:
+  - Tasks are stored in MySQL and scoped by Firebase UID.
+
 ---
 
 ## 🔒 Security Notes
