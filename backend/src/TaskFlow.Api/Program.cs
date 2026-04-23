@@ -53,7 +53,12 @@ builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
-        policy.WithOrigins(allowedOrigins)
+        policy.SetIsOriginAllowed(origin =>
+              {
+                  if (allowedOrigins.Any(o => o.Equals(origin, StringComparison.OrdinalIgnoreCase))) return true;
+                  if (origin.EndsWith(".vercel.app", StringComparison.OrdinalIgnoreCase)) return true;
+                  return false;
+              })
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials());
