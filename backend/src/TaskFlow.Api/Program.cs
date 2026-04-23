@@ -178,6 +178,13 @@ app.MapControllers();
         catch (MySqlConnector.MySqlException ex) when (ex.Message.Contains("Duplicate column name", StringComparison.OrdinalIgnoreCase))
         {
         }
+        try
+        {
+            db.Database.ExecuteSqlRaw("ALTER TABLE `tasks` ADD COLUMN `priority` varchar(20) NULL DEFAULT 'medium';");
+        }
+        catch (MySqlConnector.MySqlException ex) when (ex.Message.Contains("Duplicate column name", StringComparison.OrdinalIgnoreCase))
+        {
+        }
         startupLogger.LogInformation("Database schema ensured.");
     }
     catch (Exception ex)
