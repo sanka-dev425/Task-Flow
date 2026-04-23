@@ -13,9 +13,8 @@ The goal of this project is simple: authenticated users should be able to manage
 
 ## Live Links
 
-- Frontend (Vercel): add your URL here
-- Backend (Railway): add your URL here
-- Repository: add your URL here
+- Frontend (Vercel): https://task-flow-ten-gilt.vercel.app/
+- Repository: https://github.com/sanka-dev425/Task-Flow
 
 ## Core Features Implemented
 
