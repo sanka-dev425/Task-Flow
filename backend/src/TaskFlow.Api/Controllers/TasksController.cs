@@ -91,5 +91,10 @@ public class TasksController : ControllerBase
 public class HealthController : ControllerBase
 {
     [HttpGet]
-    public IActionResult Get() => Ok(new { status = "healthy", timestamp = DateTime.UtcNow });
+    public IActionResult Get() => Ok(new
+    {
+        status = "healthy",
+        timestamp = DateTime.UtcNow,
+        firebase = FirebaseAdmin.FirebaseApp.DefaultInstance is not null ? "initialized" : "NOT initialized"
+    });
 }

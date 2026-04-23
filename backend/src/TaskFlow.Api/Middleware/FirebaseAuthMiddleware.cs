@@ -51,6 +51,13 @@ public class FirebaseAuthMiddleware
             return;
         }
 
+        if (FirebaseAdmin.FirebaseApp.DefaultInstance is null)
+        {
+            _logger.LogError("Firebase Admin SDK is not initialized. Cannot verify tokens.");
+            await WriteUnauthorized(context, "Server authentication not configured.");
+            return;
+        }
+
         try
         {
             var decoded = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(idToken);
